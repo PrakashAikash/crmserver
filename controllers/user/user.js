@@ -1,5 +1,5 @@
 const User = require("../../model/schema/user");
-const bcrypt = require("bcrypt");
+const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 // Admin register
@@ -13,7 +13,7 @@ const adminRegister = async (req, res) => {
         .json({ message: "Admin already exist please try another email" });
     } else {
       // Hash the password
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await bcryptjs.hash(password, 10);
       // Create a new user
       const user = new User({
         username,
@@ -45,7 +45,7 @@ const register = async (req, res) => {
         .json({ message: "user already exist please try another email" });
     } else {
       // Hash the password
-      const hashedPassword = await bcrypt.hash(password, 10);
+      const hashedPassword = await bcryptjs.hash(password, 10);
       // Create a new user
       const user = new User({
         username,
@@ -199,7 +199,7 @@ const login = async (req, res) => {
       return;
     }
     // Compare the provided password with the hashed password stored in the database
-    const passwordMatch = await bcrypt.compare(password, user.password);
+    const passwordMatch = await bcryptjs.compare(password, user.password);
     if (!passwordMatch) {
       res
         .status(401)
